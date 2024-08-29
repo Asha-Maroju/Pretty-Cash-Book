@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Petty Cash Management System</title>
+    <link rel="stylesheet" href="pretty.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Welcome to the Petty Cash Management System</h1>
+        </header>
+
+        <section>
+            <h2>Manage Your Small Expenses Efficiently</h2>
+        </section>
+
+        <!-- Form to add income -->
+        <form id="income-form" class="form">
+            <h2>Add Income</h2>
+            <label for="income-date">Date:</label>
+            <input type="date" id="income-date" required>
+            <label for="income-description">Description:</label>
+            <input type="text" id="income-description" required>
+            <label for="income-amount">Amount:</label>
+            <input type="number" id="income-amount" required>
+            <button type="submit">Add Income</button>
+        </form>
+
+        <!-- Form to add expense -->
+        <form id="expense-form" class="form">
+            <h2>Add Expense</h2>
+            <label for="expense-date">Date:</label>
+            <input type="date" id="expense-date" required>
+            <label for="expense-description">Description:</label>
+            <input type="text" id="expense-description" required>
+            <label for="expense-amount">Amount:</label>
+            <input type="number" id="expense-amount" required>
+            <button type="submit">Add Expense</button>
+        </form>
+
+        <!-- Table to display petty cash records -->
+        <h2>Petty Cash Book</h2>
+        <table id="cash-book">
+            <thead>
+                <tr>
+                    <th>Date</th>
+                    <th>Description</th>
+                    <th>Income</th>
+                    <th>Expense</th>
+                    <th>Balance</th>
+                </tr>
+            </thead>
+            <tbody>
+                <!-- Rows will be dynamically added here -->
+            </tbody>
+        </table>
+    </div>
+
+    <!-- Script to handle data -->
+    <script src="pretty.js"></script>
+</body>
+</html>
+
+
+
+
+
+
+document.addEventListener('DOMContentLoaded', () => {
+    const incomeForm = document.getElementById('income-form');
+    const expenseForm = document.getElementById('expense-form');
+    const cashBookTable = document.getElementById('cash-book').getElementsByTagName('tbody')[0];
+
+    let balance = 0;
+
+    incomeForm.addEventListener('submit', (e) => {
+        e.preventDefault();
+        const date = document.getElementById('income-date').value;
+        const description = document.getElementById('income-description').value;
+        const amount = parseFloat(document.getElementById('income-amount').value);
+
+        balance += amount;
+        addRow(date, description, amount, null, balance);
+        incomeForm.reset();
+    });
+
+    expenseForm.addEventListener('submit', (e) => {
+        e.preventDefault();
+        const date = document.getElementById('expense-date').value;
+        const description = document.getElementById('expense-description').value;
+        const amount = parseFloat(document.getElementById('expense-amount').value);
+
+        balance -= amount;
+        addRow(date, description, null, amount, balance);
+        expenseForm.reset();
+    });
+
+    function addRow(date, description, income, expense, balance) {
+        const row = cashBookTable.insertRow();
+        row.insertCell(0).textContent = date;
+        row.insertCell(1).textContent = description;
+        row.insertCell(2).textContent = income !== null ? income.toFixed(2) : '';
+        row.insertCell(3).textContent = expense !== null ? expense.toFixed(2) : '';
+        row.insertCell(4).textContent = balance.toFixed(2);
+    }
+});
+
+
+
+
+
+.body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background: linear-gradient(to right, #74ebd5, #ACB6E5);
+    color: #333;
+}
+
+.container {
+    width: 80%;
+    max-width: 900px;
+    margin: 20px;
+    padding: 20px;
+    background: #fff;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+header, section {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+header h1 {
+    font-size: 2em;
+    color: #333;
+    background: linear-gradient(to right, #6a11cb, #2575fc);
+    -webkit-background-clip: text;
+    color: transparent;
+}
+
+section h2 {
+    font-size: 1.5em;
+    color: #555;
+}
+
+.form {
+    margin: 20px 0;
+    padding: 20px;
+    border: 1px solid #ccc;
+    background: linear-gradient(to bottom, #FFDEE9, #B5FFFC);
+    border-radius: 10px;
+}
+
+form h2 {
+    margin-top: 0;
+    color: #333;
+}
+
+label {
+    display: block;
+    margin: 10px 0 5px;
+    color: #555;
+}
+
+input {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    box-sizing: border-box;
+}
+
+button {
+    width: 100%;
+    padding: 10px;
+    background-color: #28a745;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+button:hover {
+    background-color: #218838;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+}
+
+table, th, td {
+    border: 1px solid #ccc;
+}
+
+th, td {
+    padding: 10px;
+    text-align: left;
+}
+
+thead {
+    background: linear-gradient(to right, #6a11cb, #2575fc);
+    color: white;
+}
+
+tr:nth-child(even) {
+    background-color: #f2f2f2;
+}
